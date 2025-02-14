@@ -24,21 +24,23 @@ Vertex::Vertex(std::string label) {}
 std::string Vertex::getLabel() const { return ""; }
 
 /** Marks this vertex as visited. */
-void Vertex::visit() {}
+void Vertex::visit() { visited = true; }
 
 /** Marks this vertex as not visited. */
-void Vertex::unvisit() {}
+void Vertex::unvisit() { visited = false; }
 
 /** Returns the visited status of this vertex.
  @return  True if the vertex has been visited, otherwise
     returns false/ */
-bool Vertex::isVisited() const { return true; }
+bool Vertex::isVisited() const { return visited; }
 
 /** Adds an edge between this vertex and the given vertex.
     Cannot have multiple connections to the same endVertex
     Cannot connect back to itself
  @return  True if the connection is successful. */
-bool Vertex::connect(const std::string& endVertex, const int edgeWeight) { return true; }
+bool Vertex::connect(const std::string& endVertex, const int edgeWeight) { 
+  return true; 
+}
 
 /** Removes the edge between this vertex and the given one.
 @return  True if the removal is successful. */
