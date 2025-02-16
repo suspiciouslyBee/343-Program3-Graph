@@ -19,7 +19,10 @@
 
 
 /** constructor, empty graph */
-Graph::Graph() {}
+Graph::Graph() {
+  numberOfEdges = 0;
+  numberOfVertices = 0;
+}
 
 /** destructor, delete all vertices and edges
     only vertices stored in map
@@ -27,21 +30,55 @@ Graph::Graph() {}
 Graph::~Graph() {}
 
 /** return number of vertices */
-int Graph::getNumVertices() const { return 0; }
+int Graph::getNumVertices() const { return numberOfVertices; }
 
 /** return number of vertices */
-int Graph::getNumEdges() const { return 0; }
+int Graph::getNumEdges() const { return numberOfEdges; }
 
 /** add a new edge between start and end vertex
     if the vertices do not exist, create them
     calls Vertex::connect
     a vertex cannot connect to itself
     or have multiple edges to another vertex */
-bool Graph::add(std::string start, std::string end, int edgeWeight) { return true; }
+bool Graph::add(std::string start, std::string end, int edgeWeight) {
+  // I am assuming that the graph will be directed
+  // So an undirected graph would need to essentially duplicate this but reverse
+  // the "polarity"
+
+  if (edgeWeight < 0 || start == end) {
+    return false;
+  }
+
+  auto startVertex = vertices.find(start);
+  auto endVertex = vertices.find(end);
+
+  if (startVertex == vertices.end()) {
+    startVertex = vertices.emplace(Vertex(start)).first;
+  }
+
+  if (endVertex == vertices.end()) {
+    endVertex = vertices.emplace(Vertex(end)).first;
+  }
+
+  return startVertex->second.connect(end, edgeWeight);
+
+}
+
 
 /** return weight of the edge between start and end
     returns INT_MAX if not connected or vertices don't exist */
-int Graph::getEdgeWeight(std::string start, std::string end) const { return 0; }
+int Graph::getEdgeWeight(std::string start, std::string end) const {
+  auto vertexStart = vertices.find(start);
+  auto vertexEnd = vertices.find(end);
+
+  if (vertexStart == vertices.end() || vertexEnd == vertices.end()) {
+    return false;
+  }
+
+  int result = vertexStart->second.getEdgeWeight(end);
+
+  return (result < 0) ? INT_MAX : result;
+}
 
 /** read edges from file
     the first line of the file is an integer, indicating number of edges

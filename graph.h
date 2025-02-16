@@ -77,7 +77,10 @@ class Graph {
     int numberOfEdges;
 
     /** mapping from vertex label to vertex pointer for quick access */
-    std::map<std::string, Vertex*> vertices;
+
+
+    //order it just like the adjacency list
+    std::map<std::string, Vertex, std::less<std::string>> vertices;
 
     /** helper for depthFirstTraversal */
     void depthFirstTraversalHelper(Vertex* startVertex,

@@ -38,8 +38,15 @@ bool Vertex::isVisited() const { return visited; }
     Cannot connect back to itself
  @return  True if the connection is successful. */
 bool Vertex::connect(const std::string& endVertex, const int edgeWeight) {
+
+  if (endVertex == vertexLabel) {
+    return false;
+  }
+
   Edge hopper(endVertex, edgeWeight);
-  // Get state via returned pair's bool
+
+  //emplace() only allows one entry per key
+  //Get state via returned pair's bool
   return adjacencyList.emplace(endVertex, hopper).second;
 }
 
