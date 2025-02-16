@@ -4,6 +4,7 @@
 #include <iostream>
 #include <fstream>
 #include <map>
+#include <sstream>
 
 #include "graph.h"
 
@@ -84,7 +85,34 @@ int Graph::getEdgeWeight(std::string start, std::string end) const {
     the first line of the file is an integer, indicating number of edges
     each edge line is in the form of "string string int"
     fromVertex  toVertex    edgeWeight */
-void Graph::readFile(std::string filename) {}
+void Graph::readFile(std::string filename) {
+
+  //open file, if cant then bail
+  std::ifstream file(filename);
+
+  if (file.fail()) {
+    std::cerr << "ERROR: File not Found!" << std::endl;
+    return;
+  }
+
+  int weight = 0;
+  //assume file is properly formatted
+
+  //std::stringstream parser;
+  std::string start;
+  std::string end;
+
+  file >> weight;
+
+  //TODO: this is basic, may need to account for random bullshit and unweighteds
+  while (!file.eof()) {
+    file >> start;
+    file >> end;
+    file >> weight;
+
+    add(start, end, weight);
+  }
+}
 
 /** depth-first traversal starting from startLabel
     call the function visit on each vertex label */
