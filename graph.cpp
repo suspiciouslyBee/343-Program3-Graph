@@ -5,6 +5,7 @@
 #include <fstream>
 #include <map>
 #include <sstream>
+#include <utility>
 
 #include "graph.h"
 
@@ -117,7 +118,16 @@ void Graph::readFile(std::string filename) {
 /** depth-first traversal starting from startLabel
     call the function visit on each vertex label */
 void Graph::depthFirstTraversal(std::string startLabel,
-                                void visit(const std::string&)) {}
+                                void visit(const std::string&)) 
+{
+  //this is a map iterator
+  auto search = vertices.find(startLabel);
+  if(search == vertices.end()) { return; }
+  unvisitVertices();
+
+  //TODO: rewrite this
+  depthFirstTraversalHelper(findVertex(startLabel), visit);
+}
 
 /** breadth-first traversal starting from startLabel
     call the function visit on each vertex label */
@@ -150,7 +160,18 @@ void Graph::breadthFirstTraversalHelper(Vertex*startVertex,
 void Graph::unvisitVertices() {}
 
 /** find a vertex, if it does not exist return nullptr */
-Vertex* Graph::findVertex(const std::string& vertexLabel) const { return nullptr; }
+/*
+Vertex* Graph::findVertex(const std::string& vertexLabel) {
+
+  std::map<std::string, Vertex, std::less<std::string>>::iterator vertex = vertices.find(vertexLabel);
+
+  if (vertex != vertices.end()) {
+    
+  }
+
+  return result;
+}
+*/
 
 /** find a vertex, if it does not exist create it and return it */
 Vertex* Graph::findOrCreateVertex(const std::string& vertexLabel) { return nullptr; }
