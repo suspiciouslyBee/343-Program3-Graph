@@ -5,6 +5,7 @@
 #include <fstream>
 #include <map>
 #include <sstream>
+#include <string>
 #include <utility>
 
 #include "graph.h"
@@ -125,14 +126,51 @@ void Graph::depthFirstTraversal(std::string startLabel,
   if(search == vertices.end()) { return; }
   unvisitVertices();
 
-  //TODO: rewrite this
-  depthFirstTraversalHelper(findVertex(startLabel), visit);
+  depthFirstTraversalHelper(search, visit);
 }
 
 /** breadth-first traversal starting from startLabel
     call the function visit on each vertex label */
 void Graph::breadthFirstTraversal(std::string startLabel,
-                                  void visit(const std::string&)) {}
+                                  void visit(const std::string&)) 
+{
+  //assume vertex
+  auto node = vertices.find(startLabel);
+  if(node == vertices.end()) { return; }
+
+  unvisitVertices();
+  std::queue<std::map<std::string, 
+              Vertex, std::less<std::string>>::iterator> nodeQueue;
+  nodeQueue.push(node);
+
+  while(nodeQueue.size() > 0) {
+    //Read neighbors into queue
+
+
+    //pop the head node, use as basis
+    node = nodeQueue.front();
+    nodeQueue.pop();
+    node->second.resetNeighbor();
+
+    //visit() this node
+    visit(node->second.getLabel());
+
+    //read adj list into queue
+    for(auto it = vertices.find(node->second.getNextNeighbor()); it != node; 
+      it = vertices.find(node->second.getNextNeighbor()))
+    {
+      
+      //only lets unvisited neighbors into the queue
+      if(!it->second.isVisited()){
+        it->second.visit();
+        nodeQueue.push(it);
+      }
+    }
+    //queue is updated, can now pop the next one.
+  }
+
+
+}
 
 /** find the lowest cost from startLabel to all vertices that can be reached
     using Djikstra's shortest-path algorithm
@@ -149,8 +187,32 @@ void Graph::djikstraCostToAllVertices(
     std::map<std::string, std::string>& previous) {}
 
 /** helper for depthFirstTraversal */
-void Graph::depthFirstTraversalHelper(Vertex* startVertex,
-                                      void visit(const std::string&)) {}
+void Graph::depthFirstTraversalHelper(
+  std::map<std::string, Vertex, std::less<std::string>>::iterator startVertex,
+                                      void visit(const std::string&)) 
+{
+  startVertex->second.visit();
+  startVertex->second.resetNeighbor();  //This may screw it up
+  visit(startVertex->second.getLabel());
+
+  //this feels jank
+  //std::string node;
+  //node = startVertex->second.getNextNeighbor();
+
+  //janky... find once, work with this. dont spawn more strings than absolutely
+  //neccisary
+  auto test = vertices.find(startVertex->second.getNextNeighbor());
+  
+  while(test != startVertex) {
+    //for now, assume list is valid
+    if(!test->second.isVisited()) {
+      depthFirstTraversalHelper(test, visit);
+    }
+    test = vertices.find(startVertex->second.getNextNeighbor());
+  }
+
+  return;
+}
 
 /** helper for breadthFirstTraversal */
 void Graph::breadthFirstTraversalHelper(Vertex*startVertex,

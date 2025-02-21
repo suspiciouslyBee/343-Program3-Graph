@@ -83,7 +83,8 @@ class Graph {
     std::map<std::string, Vertex, std::less<std::string>> vertices;
 
     /** helper for depthFirstTraversal */
-    void depthFirstTraversalHelper(Vertex* startVertex,
+    void depthFirstTraversalHelper(
+    std::map<std::string, Vertex, std::less<std::string>>::iterator startVertex,
                                    void visit(const std::string&));
 
     /** helper for breadthFirstTraversal */
