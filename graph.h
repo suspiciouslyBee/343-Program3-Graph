@@ -91,6 +91,8 @@ class Graph {
     void breadthFirstTraversalHelper(Vertex*startVertex,
                                      void visit(const std::string&));
 
+    void Graph::dijkstraHelper(std::unordered_map<std::string, std::pair<int, std::queue<Vertex*>>> &table);
+
     /** mark all verticies as unvisited */
     void unvisitVertices();
 

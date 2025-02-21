@@ -184,7 +184,58 @@ void Graph::breadthFirstTraversal(std::string startLabel,
 void Graph::djikstraCostToAllVertices(
     std::string startLabel,
     std::map<std::string, int>& weight,
-    std::map<std::string, std::string>& previous) {}
+    std::map<std::string, std::string>& previous)
+{
+
+  //I'm going to ignore the premise try to do something different
+
+  //Guards
+  auto node = vertices.find(startLabel);
+  if(node == vertices.end()) { return; }
+
+
+  //TODO: consider if converting the adjList to a PQ based on int is more
+  //efficient
+
+  //setup for recursion
+  //hash map pair for vert
+
+  //Copy the vertex map
+
+  //string id, then the key is a pair with vert in question
+  //TODO: make this not use string
+
+  //vertex id maps to a pair containing weight and a path
+
+  //goal is to be able to access the graph data with this
+  std::unordered_map<std::string, std::pair<int, std::queue<Vertex*>>>
+     pathWeightTable;
+
+  static std::pair<int, std::queue<Vertex*>> pathPair;
+
+  pathPair.first = 0;
+  //copy the map into this format
+  for(auto it = vertices.begin(); it != vertices.begin(); it++) {
+    pathWeightTable.emplace(it->first, pathPair);
+  }
+  //Table is set up
+  unvisitVertices();
+
+  //Begin the recursion
+  dijkstraHelper(pathWeightTable);
+
+
+  //construct pq of starting node
+  //std::priority_queue<int, Edge, std::less<int>> nodePQ;
+
+  
+}
+
+//recursion, expects static
+void Graph::dijkstraHelper(std::unordered_map<std::string, std::pair<int, std::queue<Vertex*>>> &table) {
+
+
+}
 
 /** helper for depthFirstTraversal */
 void Graph::depthFirstTraversalHelper(

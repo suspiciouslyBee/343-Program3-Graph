@@ -109,5 +109,6 @@ bool Vertex::operator==(const Vertex& rightHandItem) const {
 /** Sees whether this vertex is < another one.
     Compares vertexLabel. */
 bool Vertex::operator<(const Vertex& rightHandItem) const {
-  return rightHandItem.vertexLabel < vertexLabel;
+  return vertexLabel < rightHandItem.vertexLabel;
 }
+

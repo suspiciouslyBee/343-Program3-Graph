@@ -23,6 +23,8 @@ class Edge {
     /** return the weight/cost of travlleing via this edge */
     int getWeight() const;
 
+    
+
  private:
     /** end vertex, cannot be changed */
     std::string endVertex {""};
