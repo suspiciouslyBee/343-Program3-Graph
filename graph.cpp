@@ -222,7 +222,7 @@ void Graph::djikstraCostToAllVertices(
   unvisitVertices();
 
   //Begin the recursion
-  dijkstraHelper(pathWeightTable);
+  dijkstraHelper(node, pathWeightTable);
 
 
   //construct pq of starting node
@@ -232,9 +232,16 @@ void Graph::djikstraCostToAllVertices(
 }
 
 //recursion, expects static
-void Graph::dijkstraHelper(std::unordered_map<std::string, std::pair<int, std::queue<Vertex*>>> &table) {
+void Graph::dijkstraHelper(std::map<std::string, Vertex, std::less<std::string>>::iterator vertex,
+  std::unordered_map<std::string, std::pair<int, std::queue<Vertex*>>> &table) {
 
+  //make pq for selected node
 
+  //select smallest
+
+  //add path, add weight
+  //recurse down
+  //check
 }
 
 /** helper for depthFirstTraversal */
