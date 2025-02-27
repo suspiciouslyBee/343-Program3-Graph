@@ -14,9 +14,16 @@ class Edge {
     /** empty edge constructor */
     Edge();
 
+    //copy construct
+    Edge(const Edge &rhs);
+
     /** constructor with label and weight */
     Edge(const std::string& end, int weight);
 
+    //operator neccisary for pq
+    bool operator>(const Edge &rhs);
+    bool operator<(const Edge &rhs);
+    
     /** return the vertex this edge connects to */
     std::string getEndVertex() const;
 

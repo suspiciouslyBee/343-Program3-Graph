@@ -92,7 +92,7 @@ class Graph {
                                      void visit(const std::string&));
 
     void dijkstraHelper(std::map<std::string, Vertex, std::less<std::string>>::iterator startVertex,
-        std::unordered_map<std::string, std::pair<int, std::queue<Vertex*>>> &table);
+        std::unordered_map<std::string, std::pair<int, std::deque<Vertex*>>> &table);
 
     /** mark all verticies as unvisited */
     void unvisitVertices();

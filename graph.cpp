@@ -10,11 +10,12 @@
 #include <utility>
 
 #include "graph.h"
+#include "edge.h"
 
 /**
  * A graph is made up of vertices and edges
  * A vertex can be connected to other vertices via weighted, directed edge
- */
+*/
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -209,13 +210,14 @@ void Graph::djikstraCostToAllVertices(
   //vertex id maps to a pair containing weight and a path
 
   //goal is to be able to access the graph data with this
-  std::unordered_map<std::string, std::pair<int, std::queue<Vertex*>>>
+  static std::unordered_map<std::string, std::pair<int, std::deque<Vertex*>>>
      pathWeightTable;
 
-  static std::pair<int, std::queue<Vertex*>> pathPair;
+  std::pair<int, std::deque<Vertex*>> pathPair;
 
-  pathPair.first = 0;
-  //copy the map into this format
+  //-2 for unassigned weight
+  pathPair.first = -2;
+  //copy the map into this new format
   for(auto it = vertices.begin(); it != vertices.begin(); it++) {
     pathWeightTable.emplace(it->first, pathPair);
   }
@@ -229,20 +231,89 @@ void Graph::djikstraCostToAllVertices(
   //construct pq of starting node
   //std::priority_queue<int, Edge, std::less<int>> nodePQ;
 
+  //read pathweighttable to stdout
+
   
 }
 
 //recursion, expects static
-void Graph::dijkstraHelper(std::map<std::string, Vertex, std::less<std::string>>::iterator vertex,
-  std::unordered_map<std::string, std::pair<int, std::queue<Vertex*>>> &table) {
+void Graph::dijkstraHelper(
+  std::map<std::string, Vertex, std::less<std::string>>::iterator vertex,
+  std::unordered_map<std::string, std::pair<int, std::deque<Vertex*>>> &table) 
+{
 
-  //make pq for selected node
+  //Base case: visited node
+  if(vertex->second.isVisited()) { return; }
+  vertex->second.visit();
 
-  //select smallest
 
-  //add path, add weight
-  //recurse down
-  //check
+  //TODO: this might break if vector doesnt like not having assign
+  //make min  pq of paths for selected node
+  std::priority_queue<Edge, std::vector<Edge>, std::greater<Edge>> queue;
+  
+  //pop the map into the pq
+ 
+  vertex->second.resetNeighbor();
+  std::string endVertex = vertex->second.getNextNeighbor();
+  std::string vertexName = vertex->second.getLabel(); //do once 
+
+  
+  //Wow this is sloppy
+  //TODO: may need to handle invalid weights
+  while(endVertex != vertexName) {
+    queue.push(Edge(endVertex, vertex->second.getEdgeWeight(endVertex)));
+    endVertex = vertex->second.getNextNeighbor();
+  }
+
+  
+
+  //PQ is built: read the lowest, compare with path
+  //go to table, save the weight of our current vert
+  
+  //bookmark the smallest vertex before clearing queue
+  auto smallestVertex = vertices.find(queue.top().getEndVertex());
+  int baseWeight = table.at(vertexName).first;
+  int weightAdded = 0;
+  int targetWeight = 0;
+  int combinedWeight = 0;
+
+  //TODO: might be able to do pointer manips here
+  std::map<std::string, Vertex, std::less<std::string>>::iterator iterator;
+
+  //TODO make this block better, meant to block childless nodes
+  if(queue.size() < 1) { return; }
+
+  while(queue.size() > 0) {
+    iterator = vertices.find(queue.top().getEndVertex());
+    
+    //read weight of the node
+    weightAdded = queue.top().getWeight();
+
+    //readcurrent total weight from table
+    targetWeight = table.at(queue.top().getEndVertex()).first;
+
+    combinedWeight = baseWeight + weightAdded;
+
+    //PLACEHOLDER: pop pq, iterate vert iterator
+
+    //if the node has just been discovered or the combo is less than base
+    if(targetWeight == -2 || combinedWeight < targetWeight) {
+      //Copy basePath
+      table.at(iterator->first).second = table.at(vertexName).second;
+      
+      //push mem address of the top of pq's vertex
+      table.at(iterator->first).second.push_back(&(iterator->second));
+      table.at(iterator->first).first = combinedWeight;
+    }
+
+    queue.pop();
+  }
+
+  
+  dijkstraHelper(smallestVertex, table);
+  
+  return;
+  
 }
 
 /** helper for depthFirstTraversal */

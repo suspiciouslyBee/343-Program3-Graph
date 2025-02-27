@@ -63,6 +63,7 @@ class Vertex {
         Returns the vertex label if there are no more neighbors
      @return  The label of the vertex's next neighbor. */
     std::string getNextNeighbor();
+    
 
     /** Sees whether this vertex is equal to another one.
         Two vertices are equal if they have the same label. */
