@@ -21,8 +21,8 @@ class Edge {
     Edge(const std::string& end, int weight);
 
     //operator neccisary for pq
-    bool operator>(const Edge &rhs);
-    bool operator<(const Edge &rhs);
+    bool operator>(const Edge &rhs) const;
+    bool operator<(const Edge &rhs) const;
     
     /** return the vertex this edge connects to */
     std::string getEndVertex() const;

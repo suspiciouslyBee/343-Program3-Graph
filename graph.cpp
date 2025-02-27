@@ -58,14 +58,23 @@ bool Graph::add(std::string start, std::string end, int edgeWeight) {
   auto endVertex = vertices.find(end);
 
   if (startVertex == vertices.end()) {
-    startVertex = vertices.emplace(Vertex(start)).first;
+    startVertex = vertices.emplace(start, Vertex(start)).first;
+    numberOfVertices++;
   }
 
   if (endVertex == vertices.end()) {
-    endVertex = vertices.emplace(Vertex(end)).first;
+    //Vertex bye(start);
+    endVertex = vertices.emplace(end, Vertex(end)).first;
+    numberOfVertices++;
   }
 
-  return startVertex->second.connect(end, edgeWeight);
+  if (startVertex->second.connect(end, edgeWeight)) {
+    numberOfEdges++;
+    return true;
+  }
+  
+  return false;
+  
 
 }
 
@@ -215,11 +224,13 @@ void Graph::djikstraCostToAllVertices(
 
   std::pair<int, std::deque<Vertex*>> pathPair;
 
+  std::deque < Vertex* > path;
+
   //-2 for unassigned weight
-  pathPair.first = -2;
+  //pathPair.first = -2;
   //copy the map into this new format
   for(auto it = vertices.begin(); it != vertices.end(); it++) {
-    pathWeightTable.emplace(it->first, pathPair);
+    pathWeightTable.insert_or_assign(it->first, std::make_pair(-2, path));
   }
   //Table is set up
   unvisitVertices();

@@ -9,7 +9,8 @@
 #include <map>
 #include <unordered_map>
 #include <string>
-
+#include <queue>
+ 
 #include "vertex.h"
 #include "edge.h"
 
@@ -99,7 +100,7 @@ class Graph {
     void unvisitVertices();
 
     /** find a vertex, if it does not exist return nullptr */
-    Vertex* findVertex(const std::string& vertexLabel) const;
+    //Vertex* findVertex(const std::string& vertexLabel) const;
 
     /** find a vertex, if it does not exist create it and return it */
     Vertex* findOrCreateVertex(const std::string& vertexLabel);

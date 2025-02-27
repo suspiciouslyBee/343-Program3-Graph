@@ -21,12 +21,12 @@ Edge::Edge(const std::string& end, int weight) {
   edgeWeight = weight;
 }
 
-bool Edge::operator>(const Edge &rhs)
+bool Edge::operator>(const Edge &rhs) const
 {
   return getWeight() > rhs.getWeight();
 }
 
-bool Edge::operator<(const Edge &rhs)
+bool Edge::operator<(const Edge &rhs) const
 {
   return getWeight() < rhs.getWeight();
 }

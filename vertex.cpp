@@ -19,6 +19,8 @@ Vertex::Vertex(std::string label) {
   vertexLabel = label;
 }
 
+//Vertex::Vertex(std::)
+
 /** @return  The label of this vertex. */
 std::string Vertex::getLabel() const { return vertexLabel; }
 
