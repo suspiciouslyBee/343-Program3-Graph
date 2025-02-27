@@ -16,7 +16,7 @@ using namespace std;
 // used by graphVisitor
 ostringstream graphOut;
 
-// global variable for Djikstra
+// global variable for Djikstra -- THESE ARE NOT USED
 map<string, int> weight;
 map<string, string> previous;
 

@@ -218,7 +218,7 @@ void Graph::djikstraCostToAllVertices(
   //-2 for unassigned weight
   pathPair.first = -2;
   //copy the map into this new format
-  for(auto it = vertices.begin(); it != vertices.begin(); it++) {
+  for(auto it = vertices.begin(); it != vertices.end(); it++) {
     pathWeightTable.emplace(it->first, pathPair);
   }
   //Table is set up
@@ -232,6 +232,34 @@ void Graph::djikstraCostToAllVertices(
   //std::priority_queue<int, Edge, std::less<int>> nodePQ;
 
   //read pathweighttable to stdout
+
+  
+  //FORMAT
+  //Node  | Weight | Path
+  //EXAMPLE:
+  //A | 7 | B->C->D->A
+
+  std::cout << "Dykstra Report from Vertex " << startLabel << std::endl;
+  
+  //Cycle through list again. O(n^2) but I can't care rn
+  
+  for (auto it = vertices.begin(); it != vertices.end(); it++) {
+    std::cout << it->first << " | "; //Vert Name
+    std::cout << pathWeightTable.at(it->first).first << " | "; // Weight
+
+
+    for (Vertex* items : pathWeightTable.at(it->first).second) {
+      std::cout << items->getLabel() << "->";
+    }
+
+    //flush the buffer
+    std::cout << std::endl;
+       
+  }
+  
+  //TODO: compatibility with existing test
+
+
 
   
 }

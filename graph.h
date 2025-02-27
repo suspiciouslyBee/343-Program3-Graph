@@ -7,6 +7,7 @@
 #define GRAPH_H
 
 #include <map>
+#include <unordered_map>
 #include <string>
 
 #include "vertex.h"
