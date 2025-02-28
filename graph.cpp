@@ -235,6 +235,10 @@ void Graph::djikstraCostToAllVertices(
   //Table is set up
   unvisitVertices();
 
+  //zero out start
+  pathWeightTable.at(startLabel).first = 0;
+  pathWeightTable.at(startLabel).second.push_back(&(node->second));
+
   //Begin the recursion
   dijkstraHelper(node, pathWeightTable);
 
@@ -258,7 +262,7 @@ void Graph::djikstraCostToAllVertices(
     std::cout << it->first << " | "; //Vert Name
     std::cout << pathWeightTable.at(it->first).first << " | "; // Weight
 
-
+    //TODO: this makes an empty arrow at the end... need to fix
     for (Vertex* items : pathWeightTable.at(it->first).second) {
       std::cout << items->getLabel() << "->";
     }
@@ -304,7 +308,9 @@ void Graph::dijkstraHelper(
     endVertex = vertex->second.getNextNeighbor();
   }
 
-  
+  if (queue.size() < 1) {
+    return;
+  }
 
   //PQ is built: read the lowest, compare with path
   //go to table, save the weight of our current vert
@@ -320,7 +326,7 @@ void Graph::dijkstraHelper(
   std::map<std::string, Vertex, std::less<std::string>>::iterator iterator;
 
   //TODO make this block better, meant to block childless nodes
-  if(queue.size() < 1) { return; }
+  
 
   while(queue.size() > 0) {
     iterator = vertices.find(queue.top().getEndVertex());
@@ -344,12 +350,12 @@ void Graph::dijkstraHelper(
       table.at(iterator->first).second.push_back(&(iterator->second));
       table.at(iterator->first).first = combinedWeight;
     }
-
+    dijkstraHelper(iterator, table);
     queue.pop();
   }
 
   
-  dijkstraHelper(smallestVertex, table);
+  
   
   return;
   
@@ -388,7 +394,11 @@ void Graph::breadthFirstTraversalHelper(Vertex*startVertex,
                                         void visit(const std::string&)) {}
 
 /** mark all verticies as unvisited */
-void Graph::unvisitVertices() {}
+void Graph::unvisitVertices() { 
+  for (auto &vertexPair: vertices) {
+    vertexPair.second.unvisit();
+  }
+}
 
 /** find a vertex, if it does not exist return nullptr */
 /*

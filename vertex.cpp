@@ -97,7 +97,8 @@ void Vertex::resetNeighbor() { currentNeighbor = adjacencyList.begin(); }
 std::string Vertex::getNextNeighbor() { 
   if (currentNeighbor == adjacencyList.end()) {
     return vertexLabel;
-  } 
+  }
+  
 
   return (currentNeighbor++)->first;
 }
