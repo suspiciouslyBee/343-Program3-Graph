@@ -258,25 +258,39 @@ void Graph::djikstraCostToAllVertices(
   
   //Cycle through list again. O(n^2) but I can't care rn
   
-  bool printArrow = false;
+  bool notFirstItem = false;
+
+  std::string previousVertex;
+  int weightOut = 0;
+
+  previous.clear();
+  weight.clear();
 
   for (auto it = vertices.begin(); it != vertices.end(); it++) {
-    
     std::cout << it->first << " | "; //Vert Name
     if (pathWeightTable.at(it->first).first != -2) {
-      std::cout << pathWeightTable.at(it->first).first << " | ";  // Weight
-      printArrow = false;
+      weightOut = pathWeightTable.at(it->first).first;
+      std::cout << weightOut << " | ";  // Weight
+
+      if (it->first != startLabel) {
+        weight[it->first] = weightOut;
+      }
+
+      notFirstItem = false;
 
       // TODO: this makes an empty arrow at the end... need to fix
       for (Vertex* items : pathWeightTable.at(it->first).second) {
-
+        
         //work around for the foreach arrow problem because lazy
-        if (printArrow) {
+        if (notFirstItem) {
           std::cout << "->";
+          previous[items->getLabel()] = previousVertex;
         }
-        printArrow++;
+        notFirstItem++;
 
-        std::cout << items->getLabel();
+
+        previousVertex = items->getLabel();
+        std::cout << previousVertex;
       }
     } else {
       std::cout << "No Connection";
@@ -289,7 +303,11 @@ void Graph::djikstraCostToAllVertices(
   
   //TODO: compatibility with existing test
 
+  //dump to report
 
+
+
+  std::cout << std::endl;
 
   
 }
