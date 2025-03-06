@@ -1,0 +1,64 @@
+testGraph0
+OK: 3 vertices
+OK: 3 edges
+OK: DFS
+OK: BFS
+
+Dykstra Report from Vertex A
+A | 0 | A
+B | 1 | A->B
+C | 4 | A->B->C
+
+OK: Djisktra
+testGraph1
+OK: 10 vertices
+OK: 9 edges
+OK: DFS
+OK: BFS
+
+Dykstra Report from Vertex A
+A | 0 | A
+B | 1 | A->B
+C | 2 | A->B->C
+D | 3 | A->B->C->D
+E | 4 | A->B->C->D->E
+F | 5 | A->B->C->D->E->F
+G | 4 | A->H->G
+H | 3 | A->H
+X | No Connection
+Y | No Connection
+
+OK: Djisktra
+OK: 21 vertices
+OK: 24 edges
+OK: DFS from A
+OK: DFS from O
+OK: BFS from A
+OK: BFS from D
+OK: DFS from U
+OK: BFS from U
+
+Dykstra Report from Vertex O
+A | No Connection
+B | No Connection
+C | No Connection
+D | No Connection
+E | No Connection
+F | No Connection
+G | No Connection
+H | No Connection
+I | No Connection
+J | No Connection
+K | No Connection
+L | No Connection
+M | No Connection
+N | No Connection
+O | 0 | O
+P | 5 | O->P
+Q | 2 | O->Q
+R | 3 | O->Q->R
+S | 6 | O->Q->R->S
+T | 8 | O->Q->R->S->T
+U | 9 | O->Q->R->S->U
+
+OK: Djisktra O

@@ -32,7 +32,14 @@ Graph::Graph() {
 /** destructor, delete all vertices and edges
     only vertices stored in map
     no pointers to edges created by graph */
-Graph::~Graph() {}
+Graph::~Graph() {
+  numberOfEdges = 0;
+  numberOfVertices = 0;
+
+  //This is super cheeky. Since everything is a freaky STL frankenstein, I have
+  //no dyn memory to handle. The composite classes handle their own destruction
+  //Leaves no memory leak: see valgrind.txt
+}
 
 /** return number of vertices */
 int Graph::getNumVertices() const { return numberOfVertices; }
@@ -63,7 +70,8 @@ bool Graph::add(std::string start, std::string end, int edgeWeight) {
   }
 
   if (endVertex == vertices.end()) {
-    //Vertex bye(start);
+
+    
     endVertex = vertices.emplace(end, Vertex(end)).first;
     numberOfVertices++;
   }
@@ -111,13 +119,13 @@ void Graph::readFile(std::string filename) {
   int weight = 0;
   //assume file is properly formatted
 
-  //std::stringstream parser;
   std::string start;
   std::string end;
 
+  //discard the weight. its not needed unless file integrety is important
+  //add already counts the number of paths, nodes implicitly
   file >> weight;
 
-  //TODO: this is basic, may need to account for random bullshit and unweighteds
   while (!file.eof()) {
     file >> start;
     file >> end;
@@ -257,7 +265,8 @@ void Graph::djikstraCostToAllVertices(
 
   std::cout << "\nDykstra Report from Vertex " << startLabel << std::endl;
   
-  //Cycle through list again. O(n^2) but I can't care rn
+  //Cycle through list again, brute force save it to the global vars provided
+  //Would be easier if I could return pathweightable itself lol
   
   bool notFirstItem = false;
 
@@ -301,11 +310,6 @@ void Graph::djikstraCostToAllVertices(
     std::cout << std::endl;
        
   }
-  
-  //TODO: compatibility with existing test
-
-  //dump to report
-
 
 
   std::cout << std::endl;
@@ -342,6 +346,7 @@ void Graph::dijkstraHelper(
     endVertex = vertex->second.getNextNeighbor();
   }
 
+  //Another base case, empty queue
   if (queue.size() < 1) {
     return;
   }
@@ -356,10 +361,8 @@ void Graph::dijkstraHelper(
   int targetWeight = 0;
   int combinedWeight = 0;
 
-  //TODO: might be able to do pointer manips here
-  std::map<std::string, Vertex, std::less<std::string>>::iterator iterator;
 
-  //TODO make this block better, meant to block childless nodes
+  std::map<std::string, Vertex, std::less<std::string>>::iterator iterator;
   
 
   while(queue.size() > 0) {
@@ -372,8 +375,6 @@ void Graph::dijkstraHelper(
     targetWeight = table.at(queue.top().getEndVertex()).first;
 
     combinedWeight = baseWeight + weightAdded;
-
-    //PLACEHOLDER: pop pq, iterate vert iterator
 
     //if the node has just been discovered or the combo is less than base
     if(targetWeight == -2 || combinedWeight < targetWeight) {
@@ -403,10 +404,6 @@ void Graph::depthFirstTraversalHelper(
   startVertex->second.visit();
   startVertex->second.resetNeighbor();  //This may screw it up
   visit(startVertex->second.getLabel());
-
-  //this feels jank
-  //std::string node;
-  //node = startVertex->second.getNextNeighbor();
 
   //janky... find once, work with this. dont spawn more strings than absolutely
   //neccisary
