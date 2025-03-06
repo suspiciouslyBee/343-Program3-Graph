@@ -287,7 +287,7 @@ void Graph::djikstraCostToAllVertices(
           std::cout << "->";
           previous[items->getLabel()] = previousVertex;
         }
-        notFirstItem++;
+        notFirstItem = true;
 
 
         previousVertex = items->getLabel();
@@ -350,7 +350,7 @@ void Graph::dijkstraHelper(
   //go to table, save the weight of our current vert
   
   //bookmark the smallest vertex before clearing queue
-  auto smallestVertex = vertices.find(queue.top().getEndVertex());
+  //auto smallestVertex = vertices.find(queue.top().getEndVertex());
   int baseWeight = table.at(vertexName).first;
   int weightAdded = 0;
   int targetWeight = 0;
@@ -423,9 +423,6 @@ void Graph::depthFirstTraversalHelper(
   return;
 }
 
-/** helper for breadthFirstTraversal */
-void Graph::breadthFirstTraversalHelper(Vertex*startVertex,
-                                        void visit(const std::string&)) {}
 
 /** mark all verticies as unvisited */
 void Graph::unvisitVertices() { 
@@ -434,19 +431,4 @@ void Graph::unvisitVertices() {
   }
 }
 
-/** find a vertex, if it does not exist return nullptr */
-/*
-Vertex* Graph::findVertex(const std::string& vertexLabel) {
 
-  std::map<std::string, Vertex, std::less<std::string>>::iterator vertex = vertices.find(vertexLabel);
-
-  if (vertex != vertices.end()) {
-    
-  }
-
-  return result;
-}
-*/
-
-/** find a vertex, if it does not exist create it and return it */
-Vertex* Graph::findOrCreateVertex(const std::string& vertexLabel) { return nullptr; }

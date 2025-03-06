@@ -78,9 +78,6 @@ class Graph {
     /** number of edges in graph */
     int numberOfEdges;
 
-    /** mapping from vertex label to vertex pointer for quick access */
-
-
     //order it just like the adjacency list
     std::map<std::string, Vertex, std::less<std::string>> vertices;
 
@@ -89,21 +86,14 @@ class Graph {
     std::map<std::string, Vertex, std::less<std::string>>::iterator startVertex,
                                    void visit(const std::string&));
 
-    /** helper for breadthFirstTraversal */
-    void breadthFirstTraversalHelper(Vertex*startVertex,
-                                     void visit(const std::string&));
 
-    void dijkstraHelper(std::map<std::string, Vertex, std::less<std::string>>::iterator startVertex,
+    void dijkstraHelper(
+        std::map<std::string, Vertex, std::less<std::string>>::iterator startVertex,
         std::unordered_map<std::string, std::pair<int, std::deque<Vertex*>>> &table);
 
     /** mark all verticies as unvisited */
     void unvisitVertices();
 
-    /** find a vertex, if it does not exist return nullptr */
-    //Vertex* findVertex(const std::string& vertexLabel) const;
-
-    /** find a vertex, if it does not exist create it and return it */
-    Vertex* findOrCreateVertex(const std::string& vertexLabel);
 };  // end Graph
 
 #endif  // GRAPH_H

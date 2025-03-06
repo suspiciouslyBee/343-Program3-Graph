@@ -1,4 +1,7 @@
 #include <iostream>
+#include <ostream>
+#include <string>
+#include <istream>
 #include <climits>
 #include <map>
 #include <sstream>
@@ -16,7 +19,7 @@ using namespace std;
 // used by graphVisitor
 ostringstream graphOut;
 
-// global variable for Djikstra -- THESE ARE NOT USED
+// global variable for Djikstra
 map<string, int> weight;
 map<string, string> previous;
 
